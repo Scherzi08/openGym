@@ -32,3 +32,23 @@ export function exAvailable(S, ex) {
 export function newProfile(name) {
   return { id: 'eq' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name, equipment: [] }
 }
+
+// How many photos one scan takes — the server's MAX_SCAN_IMAGES (api/coach/core/scan.js).
+export const MAX_SCAN_PHOTOS = 4
+
+// A scan's answer (api/coach/core/scan.js) folded into a profile's checklist. What the AI saw
+// clearly is ticked; what it was unsure of is only offered — the person ticks those themselves —
+// and nothing already ticked is ever unticked by a scan. Values outside the catalogue never
+// reach a profile, even if a server sent them.
+export function mergeScan(checked, result) {
+  const next = new Set(checked || [])
+  const known = new Set(ALL_EQUIPMENT)
+  const added = []
+  for (const k of (result && result.equipment) || []) {
+    if (!known.has(k) || k === ALWAYS_AVAILABLE || next.has(k)) continue
+    next.add(k)
+    added.push(k)
+  }
+  const maybe = ((result && result.maybe) || []).filter(k => known.has(k) && k !== ALWAYS_AVAILABLE && !next.has(k))
+  return { next, added, maybe }
+}

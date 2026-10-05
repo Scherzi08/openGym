@@ -204,3 +204,40 @@ describe('timeouts on the phone', () => {
     for (const p of ['anthropic', 'openai', 'gemini']) expect(timeoutFor(p)).toBe(TIMEOUT_MS)
   })
 })
+
+describe('the equipment scan on a phone with its own key', () => {
+  const PHOTO = { mime: 'image/jpeg', data: '/9j/4AAQSkZJRg' }
+  beforeEach(async () => {
+    _resetCoachDevice(); local._resetLocal()
+    device.data = { mode: 'byok', provider: 'openai', model: 'gpt-t', baseUrl: null }
+    wire.calls = []; secret.key = 'sk-test-1'
+    wire.answer = chat(JSON.stringify({ coach_contract: 1, equipment: ['dumbbell', 'jetpack'], maybe: ['cable'], note: '' }))
+  })
+
+  it('sends the photos with the scan prompt and keeps only catalogue values', async () => {
+    const r = await local.localScan(state(), [PHOTO])
+    expect(r.ok).toBe(true)
+    expect(r.result.equipment).toEqual(['dumbbell'])
+    expect(r.result.maybe).toEqual(['cable'])
+    expect(r.result.dropped).toBe(1)
+    const user = wire.calls[0].body.messages[1]
+    expect(user.content[1]).toEqual({ type: 'image_url', image_url: { url: 'data:image/jpeg;base64,' + PHOTO.data } })
+    expect(wire.calls[0].body.messages[0].content).toContain('# Task: equipment scan')
+  })
+
+  it('needs consent and counts against the daily cap', async () => {
+    const S = state(); S.coach.consent = null
+    await expect(local.localScan(S, [PHOTO])).rejects.toMatchObject({ code: 'consent' })
+    expect(wire.calls).toHaveLength(0)
+    await saveCoachDevice({ daily: { d: todayISO(), n: local.LOCAL_DAILY_CAP } })
+    await expect(local.localScan(state(), [PHOTO])).rejects.toMatchObject({ code: 'cap' })
+    expect(wire.calls).toHaveLength(0)
+  })
+
+  it('reports a provider that refuses the photos as a failed scan, not a crash', async () => {
+    wire.answer = { status: 400, body: { error: { message: 'this model does not support image input' } } }
+    const r = await local.localScan(state(), [PHOTO])
+    expect(r).toMatchObject({ ok: false, errorClass: 'provider' })
+    expect((await local.localStatus()).job).toBe(null)
+  })
+})

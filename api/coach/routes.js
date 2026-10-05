@@ -11,6 +11,7 @@ import { adapterFor } from './adapters/index.js';
 import { canDropPrivileges } from './adapters/spawn.js';
 import { DATA_CATEGORIES } from './core/payload.js';
 import { validateBaseUrl, baseUrlFor } from './core/providers.js';
+import { checkImages } from './core/scan.js';
 
 // Job failures the user sees, in the app's own voice. The raw provider detail never reaches
 // them — it goes to the admin card, which is where someone can act on it (FR-47).
@@ -22,9 +23,19 @@ const USER_ERROR = {
   // Verbatim, because it tells the user the one thing that resolves it and names who resolves
   // it. A vaguer message here turns into a support question for the person running the box.
   shared: cfgStore.SHARED_ACCOUNT_REFUSAL,
-  unprivileged: 'the Coach is switched off on this instance for safety reasons'
+  unprivileged: 'the Coach is switched off on this instance for safety reasons',
+  novision: 'the AI on this instance cannot look at photos'
 };
-const HTTP_FOR = { off: 503, busy: 409, cap: 429, consent: 403, shared: 409, unprivileged: 503 };
+const HTTP_FOR = { off: 503, busy: 409, cap: 429, consent: 403, shared: 409, unprivileged: 503, novision: 501 };
+// What a failed scan means for the person holding the phone. The provider's own words go to
+// the admin card's log, as for a job.
+const SCAN_ERROR = {
+  timeout: 'the scan took too long — try fewer photos',
+  unusable: 'the AI answered with something the app could not use',
+  auth: 'the AI provider is not set up correctly on this instance',
+  missing: 'the AI provider is not set up correctly on this instance',
+  forgotten: 'the scan was cancelled'
+};
 
 export function coachRoutes({ json, readBody, readSession, requireAdmin }) {
   /** Every user route starts the same way: signed in, feature on, feature reachable. */
@@ -102,6 +113,22 @@ export function coachRoutes({ json, readBody, readSession, requireAdmin }) {
         const job = jobs.enqueue(user.id, { kind: 'debrief', lang: body.lang, workoutId: body.workoutId ? String(body.workoutId).slice(0, 40) : null });
         json(res, 202, { job });
       } catch (e) { failEnqueue(res, e); }
+    },
+
+    /* Photos of a gym in, a checklist of catalogue equipment out. Answered in the request: the
+       photos are checked here, handed to the provider and dropped — never written to disk, never
+       logged. Consent, caps, credential and single-flight are the job queue's own (jobs.js). */
+    'POST /api/coach/scan-equipment': async (req, res) => {
+      const user = guard(req, res); if (!user) return;
+      const body = await readBody(req);
+      const checked = checkImages(body.images);
+      if (!checked.ok) return json(res, 400, { error: checked.error });
+      let r;
+      try {
+        r = await jobs.scanEquipment(user.id, { images: checked.images, lang: body.lang });
+      } catch (e) { return failEnqueue(res, e); }
+      if (!r.ok) return json(res, 502, { error: SCAN_ERROR[r.errorClass] || 'the scan failed — try again', code: r.errorClass });
+      json(res, 200, r.result);
     },
 
     /* How this profile sits against everyone else on the instance who opted in: medians only,

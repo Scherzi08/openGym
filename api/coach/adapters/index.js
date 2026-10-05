@@ -28,6 +28,9 @@ const FIXTURE = new URL('../fixture-cli.mjs', import.meta.url).pathname;
 const fixture = {
   id: 'fixture',
   spawns: true,
+  // Stands in for a vision model on the equipment scan: it never sees the photos (they are not
+  // passed to a spawned process) and answers with a canned gym, which is what CI asserts on.
+  vision: true,
   cli: process.execPath,
   async check() { return { ok: true, version: 'fixture' }; },
   async invoke({ prompt, jobDir, env, timeoutMs }) {

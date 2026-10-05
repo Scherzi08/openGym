@@ -1008,6 +1008,21 @@ export const PT_BR_OVERRIDES = {
   'Teal': 'Turquesa',
   'Yellow': 'Amarelo',
   'Enter how long it took — at least 1 minute.': 'Informe quanto tempo levou — pelo menos 1 minuto.',
+  // --- equipment scan ---
+  'Scan my gym with AI': 'Escanear minha academia com IA',
+  'Looking at your photos…': 'Olhando suas fotos…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'Tire ou escolha até {0} fotos da academia. Elas são enviadas ao provedor de IA só para reconhecer os equipamentos e não são armazenadas. Evite fotografar pessoas.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'Marcado a partir das suas fotos: {0}. Confira a lista abaixo antes de salvar.',
+  'Nothing new found in your photos.': 'Nada novo encontrado nas suas fotos.',
+  'Not sure about these — tap the ones you have:': 'Sem certeza sobre estes — toque nos que você tem:',
+  'Only the first {0} photos are used.': 'Só as primeiras {0} fotos são usadas.',
+  'Open the Coach once and give it your go-ahead first.': 'Abra o Coach uma vez e dê seu consentimento primeiro.',
+  'The scan failed — try again.': 'O escaneamento falhou — tente de novo.',
+  'The scan took too long — try fewer photos.': 'O escaneamento demorou demais — tente com menos fotos.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'A IA respondeu algo que o app não consegue usar. Tente outras fotos.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'A IA não conseguiu ver as fotos — o modelo escolhido pode não suportar imagens.',
+  'The AI provider isn’t set up correctly.': 'O provedor de IA não está configurado corretamente.',
+  'Demo scan: the photos were not analysed.': 'Escaneamento de demonstração: as fotos não foram analisadas.',
 }
 
 export default { ...pt, ...PT_BR_OVERRIDES }

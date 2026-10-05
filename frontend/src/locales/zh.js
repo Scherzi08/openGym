@@ -1663,4 +1663,20 @@ export default {
   'Teal': '青色',
   'Yellow': '黄色',
   'Enter how long it took — at least 1 minute.': '请输入用时 — 至少 1 分钟。',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': '用 AI 扫描我的健身房',
+  'Looking at your photos…': '正在查看你的照片…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': '拍摄或选择最多 {0} 张健身区照片。照片仅发送给 AI 提供商用于识别器械，不会被保存。请尽量不要拍到他人。',
+  'Ticked from your photos: {0}. Check the list below before you save.': '已根据照片勾选：{0}。保存前请检查下面的列表。',
+  'Nothing new found in your photos.': '照片中没有发现新的器械。',
+  'Not sure about these — tap the ones you have:': '这些不确定 — 点选你有的：',
+  'Only the first {0} photos are used.': '只使用前 {0} 张照片。',
+  'Open the Coach once and give it your go-ahead first.': '请先打开一次教练并给出你的同意。',
+  'The scan failed — try again.': '扫描失败 — 请重试。',
+  'The scan took too long — try fewer photos.': '扫描时间过长 — 请减少照片数量再试。',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'AI 的回答无法被应用使用。请换几张照片试试。',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'AI 无法查看照片 — 所选模型可能不支持图片。',
+  'The AI provider isn’t set up correctly.': 'AI 提供商未正确设置。',
+  'Demo scan: the photos were not analysed.': '演示扫描：照片未被分析。',
 }

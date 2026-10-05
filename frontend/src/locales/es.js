@@ -1663,4 +1663,20 @@ export default {
   'Teal': 'Turquesa',
   'Yellow': 'Amarillo',
   'Enter how long it took — at least 1 minute.': 'Indica cuánto duró — al menos 1 minuto.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'Escanear mi gimnasio con IA',
+  'Looking at your photos…': 'Mirando tus fotos…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'Haz o elige hasta {0} fotos de la sala. Se envían al proveedor de IA solo para reconocer el equipamiento y no se guardan. Evita fotografiar a personas.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'Marcado a partir de tus fotos: {0}. Revisa la lista de abajo antes de guardar.',
+  'Nothing new found in your photos.': 'No se encontró nada nuevo en tus fotos.',
+  'Not sure about these — tap the ones you have:': 'No hay seguridad con estos — toca los que tengas:',
+  'Only the first {0} photos are used.': 'Solo se usan las primeras {0} fotos.',
+  'Open the Coach once and give it your go-ahead first.': 'Abre el Coach una vez y dale tu permiso primero.',
+  'The scan failed — try again.': 'El escaneo falló — inténtalo de nuevo.',
+  'The scan took too long — try fewer photos.': 'El escaneo tardó demasiado — prueba con menos fotos.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'La IA respondió algo que la app no puede usar. Prueba con otras fotos.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'La IA no pudo ver las fotos — puede que el modelo elegido no admita imágenes.',
+  'The AI provider isn’t set up correctly.': 'El proveedor de IA no está bien configurado.',
+  'Demo scan: the photos were not analysed.': 'Escaneo de demostración: las fotos no se analizaron.',
 }

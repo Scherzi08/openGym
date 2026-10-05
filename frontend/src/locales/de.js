@@ -1683,4 +1683,20 @@ export default {
   'Teal': 'Türkis',
   'Yellow': 'Gelb',
   'Enter how long it took — at least 1 minute.': 'Gib ein, wie lange es gedauert hat — mindestens 1 Minute.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'Gym mit KI scannen',
+  'Looking at your photos…': 'Fotos werden angesehen…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'Mach oder wähle bis zu {0} Fotos von der Trainingsfläche. Sie gehen nur an den KI-Anbieter, um die Geräte zu erkennen, und werden nicht gespeichert. Fotografiere möglichst keine Personen.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'Aus deinen Fotos angehakt: {0}. Prüf die Liste unten, bevor du speicherst.',
+  'Nothing new found in your photos.': 'Auf deinen Fotos wurde nichts Neues gefunden.',
+  'Not sure about these — tap the ones you have:': 'Hier ist die KI unsicher — tipp an, was du hast:',
+  'Only the first {0} photos are used.': 'Nur die ersten {0} Fotos werden verwendet.',
+  'Open the Coach once and give it your go-ahead first.': 'Öffne einmal den Coach und gib dort dein Okay.',
+  'The scan failed — try again.': 'Der Scan ist fehlgeschlagen — versuch es noch einmal.',
+  'The scan took too long — try fewer photos.': 'Der Scan hat zu lange gedauert — versuch es mit weniger Fotos.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'Die KI hat etwas geantwortet, mit dem die App nichts anfangen kann. Versuch andere Fotos.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'Die KI konnte die Fotos nicht ansehen — das gewählte Modell kann eventuell keine Bilder.',
+  'The AI provider isn’t set up correctly.': 'Der KI-Anbieter ist nicht richtig eingerichtet.',
+  'Demo scan: the photos were not analysed.': 'Demo-Scan: Die Fotos wurden nicht ausgewertet.',
 }

@@ -191,6 +191,36 @@ switches are on, with the prompt told to use them for perspective only. The opt-
 server's own per-profile record, not in synced state, so a stale device cannot flip it back on;
 switching it off removes the person from the next computation immediately.
 
+### Scanning your gym's equipment
+
+**Settings → Equipment → a profile → Scan my gym with AI.** Take or pick up to four photos of the
+gym floor; the Coach's provider names the equipment in them, and it is ticked in the profile you
+are editing. What it was unsure of is offered as chips to tap; nothing you had ticked is ever
+unticked; nothing is saved until you press **Save**. The profile then filters the library and the
+picker exactly as a hand-ticked one does.
+
+- **Same gate as a job.** Shown only where the Coach is; needs the profile's consent; counts one
+  run against the daily caps; cannot run while a job for the profile is in flight
+  (`POST /api/coach/scan-equipment`, `api/coach/core/scan.js`).
+- **The photos are not kept.** The app redraws each one at most 1280 px as a JPEG before sending,
+  which also strips EXIF (GPS included). The server checks them — at most four, JPEG/PNG/WebP whose
+  first bytes match the declared type — hands them to the provider and drops them. They are never
+  written to `./data` and never logged; the job log records the count and how many values came
+  back. Gym photos often have other people in them: the screen asks you to avoid that, and the
+  prompt tells the model to ignore anyone it sees.
+- **Only the catalogue's own words come back.** The model must answer with values from the
+  exercise library's equipment list (`dumbbell`, `cable`, `leverage machine`…); anything else it
+  says is dropped by the validator, not passed on, the same posture as a plan's exercise ids.
+- **Which providers.** Anthropic, OpenAI, Gemini and an OpenAI-compatible endpoint send the photos
+  in the user turn; the model you chose has to accept images (a text-only one fails the scan with
+  the provider's own error in the admin log). The Claude Agent SDK and Codex runtimes are refused
+  with `501`: photos are not handed to a spawned process. The fixture provider answers with a
+  canned gym without looking, so the whole flow can be tried — and is tested — without an
+  account; so does the demo.
+- **One request, not a queued job.** The scan answers in the call, with a 55-second budget that
+  stays under the reverse proxy's default 60-second read timeout on `/api`. A slow local vision
+  model may not make it; fewer photos help.
+
 ## Whose account pays
 
 This is the first thing to settle, because it decides what the rest of the feature is allowed
@@ -245,6 +275,9 @@ renders from, so the screen cannot drift from the payload — are:
 A review reads a training block, not a training career: the window is capped at **12 weeks or 60
 sessions**. Your profile is identified by a stable pseudonym that is never the user id and never
 reversible.
+
+The equipment scan is the one request that sends something else: the photos you chose for it,
+and nothing from your training data (see [Scanning your gym's equipment](#scanning-your-gyms-equipment)).
 
 Excluded on purpose and permanently: **display name and user id, passkey and credential
 material, push subscriptions, invite data, theme and appearance settings, and every other

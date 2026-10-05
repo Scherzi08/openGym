@@ -1663,4 +1663,20 @@ export default {
   'Teal': 'Бирюзовый',
   'Yellow': 'Жёлтый',
   'Enter how long it took — at least 1 minute.': 'Укажите, сколько это длилось — не меньше 1 минуты.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'Сканировать мой зал с ИИ',
+  'Looking at your photos…': 'Смотрю ваши фото…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'Сделайте или выберите до {0} фото зала. Они отправляются поставщику ИИ только для распознавания оборудования и не сохраняются. Старайтесь не фотографировать людей.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'Отмечено по вашим фото: {0}. Проверьте список ниже перед сохранением.',
+  'Nothing new found in your photos.': 'На ваших фото ничего нового не найдено.',
+  'Not sure about these — tap the ones you have:': 'Насчёт этих нет уверенности — отметьте те, что у вас есть:',
+  'Only the first {0} photos are used.': 'Используются только первые {0} фото.',
+  'Open the Coach once and give it your go-ahead first.': 'Сначала откройте Тренера и дайте своё согласие.',
+  'The scan failed — try again.': 'Сканирование не удалось — попробуйте ещё раз.',
+  'The scan took too long — try fewer photos.': 'Сканирование заняло слишком много времени — попробуйте с меньшим числом фото.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'ИИ ответил так, что приложение не может это использовать. Попробуйте другие фото.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'ИИ не смог посмотреть фото — возможно, выбранная модель не поддерживает изображения.',
+  'The AI provider isn’t set up correctly.': 'Поставщик ИИ настроен неправильно.',
+  'Demo scan: the photos were not analysed.': 'Демо-сканирование: фото не анализировались.',
 }

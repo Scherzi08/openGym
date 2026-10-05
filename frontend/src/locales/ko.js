@@ -1663,4 +1663,20 @@ export default {
   'Teal': '청록',
   'Yellow': '노랑',
   'Enter how long it took — at least 1 minute.': '걸린 시간을 입력하세요 — 최소 1분.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'AI로 내 헬스장 스캔',
+  'Looking at your photos…': '사진을 살펴보는 중…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': '헬스장 사진을 최대 {0}장 찍거나 고르세요. 장비 인식을 위해서만 AI 제공업체로 전송되며 저장되지 않습니다. 사람은 찍지 않도록 해 주세요.',
+  'Ticked from your photos: {0}. Check the list below before you save.': '사진에서 체크됨: {0}. 저장하기 전에 아래 목록을 확인하세요.',
+  'Nothing new found in your photos.': '사진에서 새로운 장비를 찾지 못했습니다.',
+  'Not sure about these — tap the ones you have:': '이것들은 확실하지 않아요 — 가지고 있는 것을 탭하세요:',
+  'Only the first {0} photos are used.': '처음 {0}장의 사진만 사용됩니다.',
+  'Open the Coach once and give it your go-ahead first.': '먼저 코치를 한 번 열고 동의해 주세요.',
+  'The scan failed — try again.': '스캔에 실패했습니다 — 다시 시도하세요.',
+  'The scan took too long — try fewer photos.': '스캔이 너무 오래 걸렸습니다 — 사진 수를 줄여 보세요.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'AI가 앱에서 사용할 수 없는 답을 했습니다. 다른 사진으로 시도하세요.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'AI가 사진을 볼 수 없었습니다 — 선택한 모델이 이미지를 지원하지 않을 수 있습니다.',
+  'The AI provider isn’t set up correctly.': 'AI 제공업체가 올바르게 설정되지 않았습니다.',
+  'Demo scan: the photos were not analysed.': '데모 스캔: 사진은 분석되지 않았습니다.',
 }
