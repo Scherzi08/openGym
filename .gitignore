@@ -14,7 +14,8 @@ node_modules/
 *.log
 .DS_Store
 node_modules
-.claude/
+.claude/*
+!.claude/settings.json
 .agents/
 
 # CI reports (test:* jobs write these next to the suites)
