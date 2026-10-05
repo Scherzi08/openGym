@@ -32,6 +32,19 @@ if (MODE === 'invalid') { process.stdout.write('I am afraid I cannot do that.\n'
 const isRepair = /REPAIR REQUEST/i.test(prompt);
 if (MODE === 'invalid-then-valid' && !isRepair) { process.stdout.write('{"changes": "not an array"}\n'); process.exit(0); }
 
+// The equipment scan (core/scan.js). The photos never reach a spawned runtime — this fixture
+// stands in for a vision model, so it answers with a typical commercial gym floor, plus one
+// value outside the catalogue and body weight, which the validator must drop.
+if (prompt.includes('# Task: equipment scan')) {
+  if (MODE === 'scan-empty') out({ coach_contract: 1, equipment: [], maybe: [], note: 'No training equipment visible.' });
+  out({
+    coach_contract: 1,
+    equipment: ['barbell', 'dumbbell', 'cable', 'leverage machine', 'smith machine', 'body weight', 'laser treadmill'],
+    maybe: ['ez barbell', 'kettlebell'],
+    note: 'Simulated scan: the fixture provider did not look at the photos.'
+  });
+}
+
 // The admin card's "Test the Coach": a prompt with no payload attached, asking for one small
 // object back. A real provider answers that from the prompt alone, so the fixture does too —
 // otherwise the single button that proves the runtime works is the one thing the shipped

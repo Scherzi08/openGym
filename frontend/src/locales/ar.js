@@ -1716,4 +1716,20 @@ export default {
   'Teal': 'أزرق مخضر',
   'Yellow': 'أصفر',
   'Enter how long it took — at least 1 minute.': 'أدخل المدة التي استغرقها — دقيقة واحدة على الأقل.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'امسح صالتي بالذكاء الاصطناعي',
+  'Looking at your photos…': 'جارٍ النظر في صورك…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'التقط أو اختر حتى {0} صور لصالة التمرين. تُرسل إلى مزوّد الذكاء الاصطناعي فقط للتعرّف على المعدات، ولا تُحفظ. تجنّب تصوير الأشخاص.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'تم التحديد من صورك: {0}. راجع القائمة أدناه قبل الحفظ.',
+  'Nothing new found in your photos.': 'لم يُعثر على شيء جديد في صورك.',
+  'Not sure about these — tap the ones you have:': 'غير متأكد من هذه — اضغط على ما لديك منها:',
+  'Only the first {0} photos are used.': 'تُستخدم أول {0} صور فقط.',
+  'Open the Coach once and give it your go-ahead first.': 'افتح المدرب مرة واحدة وامنحه موافقتك أولًا.',
+  'The scan failed — try again.': 'فشل المسح — حاول مرة أخرى.',
+  'The scan took too long — try fewer photos.': 'استغرق المسح وقتًا طويلًا — جرّب عددًا أقل من الصور.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'ردّ الذكاء الاصطناعي بشيء لا يستطيع التطبيق استخدامه. جرّب صورًا أخرى.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'لم يتمكن الذكاء الاصطناعي من رؤية الصور — قد لا يدعم النموذج المختار الصور.',
+  'The AI provider isn’t set up correctly.': 'مزوّد الذكاء الاصطناعي غير مُعدّ بشكل صحيح.',
+  'Demo scan: the photos were not analysed.': 'مسح تجريبي: لم تُحلَّل الصور.',
 }

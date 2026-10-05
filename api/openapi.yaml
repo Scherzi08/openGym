@@ -2498,6 +2498,83 @@ paths:
         '429': { $ref: '#/components/responses/CoachRefused' }
         '503': { $ref: '#/components/responses/CoachOff' }
 
+  /api/coach/scan-equipment:
+    post:
+      tags: [coach]
+      operationId: postCoachScanEquipment
+      summary: Recognise gym equipment in photos
+      description: |
+        Sends one to four photos of a gym to the configured provider and answers, in the same
+        request, with the equipment it recognised — only values from the exercise catalogue's
+        equipment taxonomy, never body weight. Nothing is stored: the photos exist for the
+        length of the call. Counts against the same daily caps as a job, needs the same consent,
+        and cannot run while a job for the profile is in flight. The client shows the result as
+        a checklist; nothing is saved until the person saves the equipment profile.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [images]
+              properties:
+                images:
+                  type: array
+                  minItems: 1
+                  maxItems: 4
+                  description: |
+                    Photos as `data:` URLs or `{ mime, data }` objects with base64 data. JPEG, PNG or
+                    WebP; the declared type must match the file's first bytes. At most ~1.1 MB of
+                    base64 each.
+                  items:
+                    oneOf:
+                      - { type: string, pattern: '^data:image/(jpeg|png|webp);base64,' }
+                      - type: object
+                        required: [mime, data]
+                        properties:
+                          mime: { type: string, enum: [image/jpeg, image/png, image/webp] }
+                          data: { type: string }
+                lang:
+                  type: string
+                  pattern: '^[A-Za-z]{2,3}([-_][A-Za-z0-9]{2,8})?$'
+                  description: The language the app is showing, which the `note` is written in.
+      responses:
+        '200':
+          description: What the provider recognised, checked against the catalogue.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  equipment: { type: array, items: { type: string }, description: Clearly visible. }
+                  maybe: { type: array, items: { type: string }, description: Partly visible or uncertain. }
+                  note: { type: string, description: One sentence for the user, possibly empty. }
+                  dropped: { type: integer, description: Values the provider named that are not in the catalogue. }
+              example: { equipment: [barbell, dumbbell, cable], maybe: [kettlebell], note: '', dropped: 0 }
+        '400':
+          description: The photos are missing, too many, too large, or not JPEG/PNG/WebP.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/CoachRefused' }
+        '409': { $ref: '#/components/responses/CoachRefused' }
+        '429': { $ref: '#/components/responses/CoachRefused' }
+        '501':
+          description: The configured provider cannot look at photos (`code` is `novision`).
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '502':
+          description: |
+            The provider was called and the scan failed; `code` is the failure class
+            (`timeout`, `auth`, `provider`, `unusable`, …). The provider's own words go to the
+            admin card's log, not to the client.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '503': { $ref: '#/components/responses/CoachOff' }
+
   /api/coach/pending/resolve:
     post:
       tags: [coach]

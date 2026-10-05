@@ -17,6 +17,7 @@
 //     riding into a backup or a sync.
 import * as payloadLib from '../../../api/coach/core/payload.js'
 import { runPipeline } from '../../../api/coach/core/pipeline.js'
+import { runScan } from '../../../api/coach/core/scan.js'
 import { HTTP_PROVIDERS, baseUrlFor } from '../../../api/coach/core/providers.js'
 import anthropic from '../../../api/coach/core/adapters/anthropic.js'
 import openai from '../../../api/coach/core/adapters/openai.js'
@@ -119,6 +120,40 @@ export async function localModels(settings, key) {
 }
 
 const hostOf = url => { try { return new URL(url).host } catch { return url || '' } }
+
+/* ---------- the equipment scan ---------- */
+
+// Under the server's own 55 s, for the same reason the phone's jobs mirror the server: one
+// behaviour to explain. A model on the LAN gets the long budget, as for a job.
+export const SCAN_TIMEOUT_MS = 55000
+
+/**
+ * Photos of a gym → the catalogue equipment in them, answered in the call. The same core the
+ * server runs (api/coach/core/scan.js), the same consent and the same daily cap as a job here.
+ * Throws with `code` like the server's refusals; a failed scan resolves `{ ok:false }`.
+ */
+export async function localScan(S, images) {
+  if (job) throw Object.assign(new Error(t('The Coach is already thinking about your training.')), { status: 409, code: 'busy' })
+  if (!S?.coach?.consent?.agreedAt) throw Object.assign(new Error(t('The Coach needs your go-ahead first.')), { status: 403, code: 'consent' })
+  const d = await loadCoachDevice()
+  const adapter = ADAPTERS[d.provider]
+  if (d.mode !== 'byok' || !adapter) throw Object.assign(new Error(t('The Coach isn’t set up on this phone.')), { status: 503, code: 'off' })
+  const cap = await capState()
+  if (cap.used >= cap.limit) throw Object.assign(new Error(t('The Coach is resting — you have used today’s {0} runs on this phone.', cap.limit)), { status: 429, code: 'cap' })
+  await bumpDaily()
+  job = { id: 'local-scan-' + Date.now().toString(36), kind: 'scan', state: 'running', startedAt: Date.now() }
+  try {
+    const key = await getApiKey()
+    return await runScan({
+      adapter, cfg: cfgOf(d), images, lang: getLang(),
+      model: d.model || HTTP_PROVIDERS[d.provider].defaultModel,
+      timeoutMs: d.provider === 'compatible' ? LOCAL_ENDPOINT_TIMEOUT_MS : SCAN_TIMEOUT_MS,
+      invokeOpts: { env: envOf(d, key), fetch: nativeFetch }
+    })
+  } finally {
+    job = null
+  }
+}
 
 /* ---------- running a job ---------- */
 

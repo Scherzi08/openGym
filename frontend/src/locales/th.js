@@ -1674,4 +1674,20 @@ export default {
   'Teal': 'เขียวน้ำทะเล',
   'Yellow': 'เหลือง',
   'Enter how long it took — at least 1 minute.': 'ใส่ระยะเวลาที่ใช้ — อย่างน้อย 1 นาที',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'สแกนยิมของฉันด้วย AI',
+  'Looking at your photos…': 'กำลังดูรูปของคุณ…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'ถ่ายหรือเลือกรูปพื้นที่ยิมได้สูงสุด {0} รูป รูปจะถูกส่งไปยังผู้ให้บริการ AI เพื่อจดจำอุปกรณ์เท่านั้น และจะไม่ถูกเก็บไว้ หลีกเลี่ยงการถ่ายภาพผู้คน',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'เลือกจากรูปของคุณแล้ว: {0} ตรวจรายการด้านล่างก่อนบันทึก',
+  'Nothing new found in your photos.': 'ไม่พบอะไรใหม่ในรูปของคุณ',
+  'Not sure about these — tap the ones you have:': 'ไม่แน่ใจรายการเหล่านี้ — แตะรายการที่คุณมี:',
+  'Only the first {0} photos are used.': 'ใช้เฉพาะ {0} รูปแรกเท่านั้น',
+  'Open the Coach once and give it your go-ahead first.': 'เปิดโค้ชหนึ่งครั้งและให้ความยินยอมก่อน',
+  'The scan failed — try again.': 'การสแกนล้มเหลว — ลองอีกครั้ง',
+  'The scan took too long — try fewer photos.': 'การสแกนใช้เวลานานเกินไป — ลองใช้รูปให้น้อยลง',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'AI ตอบกลับสิ่งที่แอปใช้ไม่ได้ ลองใช้รูปอื่น',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'AI ดูรูปไม่ได้ — โมเดลที่เลือกอาจไม่รองรับรูปภาพ',
+  'The AI provider isn’t set up correctly.': 'ผู้ให้บริการ AI ตั้งค่าไม่ถูกต้อง',
+  'Demo scan: the photos were not analysed.': 'สแกนสาธิต: ไม่ได้วิเคราะห์รูป',
 }

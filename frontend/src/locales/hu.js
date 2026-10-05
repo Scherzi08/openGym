@@ -1666,4 +1666,20 @@ export default {
   'Teal': 'Türkiz',
   'Yellow': 'Sárga',
   'Enter how long it took — at least 1 minute.': 'Add meg, meddig tartott — legalább 1 perc.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'Edzőterem beolvasása MI-vel',
+  'Looking at your photos…': 'Nézem a fotóidat…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'Készíts vagy válassz legfeljebb {0} fotót a teremről. Csak a felszerelés felismeréséhez kerülnek az MI-szolgáltatóhoz, és nem tároljuk őket. Lehetőleg ne fotózz le embereket.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'A fotóid alapján bejelölve: {0}. Mentés előtt nézd át az alábbi listát.',
+  'Nothing new found in your photos.': 'A fotóidon nem találtunk semmi újat.',
+  'Not sure about these — tap the ones you have:': 'Ezekben nem biztos — koppints azokra, amelyek megvannak:',
+  'Only the first {0} photos are used.': 'Csak az első {0} fotót használjuk.',
+  'Open the Coach once and give it your go-ahead first.': 'Előbb nyisd meg egyszer az Edzőt, és add meg a hozzájárulásod.',
+  'The scan failed — try again.': 'A beolvasás nem sikerült — próbáld újra.',
+  'The scan took too long — try fewer photos.': 'A beolvasás túl sokáig tartott — próbáld kevesebb fotóval.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'Az MI olyasmit válaszolt, amit az app nem tud használni. Próbálj más fotókat.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'Az MI nem tudta megnézni a fotókat — lehet, hogy a választott modell nem kezel képeket.',
+  'The AI provider isn’t set up correctly.': 'Az MI-szolgáltató nincs jól beállítva.',
+  'Demo scan: the photos were not analysed.': 'Demó beolvasás: a fotókat nem elemeztük.',
 }

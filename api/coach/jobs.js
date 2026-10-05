@@ -27,6 +27,7 @@ import { handleFor } from './handle.js';
 import { fetchFor } from './node-fetch.js';
 import { canDropPrivileges, unprivilegedIds } from './adapters/spawn.js';
 import { cohortForPayload, invalidate as invalidateCohort } from './cohort.js';
+import { runScan } from './core/scan.js';
 
 // The prompt assembly, the plan fingerprint and the invoke→parse→validate→repair loop all
 // live in ./core now, where the phone can import them too. Re-exported so nothing that
@@ -191,10 +192,13 @@ export function clampMessage(text) {
 }
 
 /**
- * Enqueue a job. Throws CoachError with a code the routes layer maps to an HTTP status:
- * `off`, `busy`, `cap`, `consent`.
+ * Everything a profile has to clear before its request may spend the provider account:
+ * the Coach on, not already busy, consent on file, a credential this profile may use, the
+ * privilege drop where a process is spawned, and the daily caps — which it then counts. Shared
+ * by queued jobs and the equipment scan, so the scan cannot become a way around any of them.
+ * Throws CoachError with a code the routes layer maps to an HTTP status.
  */
-export function enqueue(uid, opts) {
+function preflight(uid) {
   if (!cfgStore.isEnabled() || !cfgStore.isConnected()) throw new CoachError('off', 'the Coach is not set up on this instance');
   if (inflight.has(uid)) throw new CoachError('busy', 'the Coach is already thinking about your training');
 
@@ -234,6 +238,14 @@ export function enqueue(uid, opts) {
   // twentieth ever finishes.
   bumpDaily(uid);
   bumpInstanceDaily();
+}
+
+/**
+ * Enqueue a job. Throws CoachError with a code the routes layer maps to an HTTP status:
+ * `off`, `busy`, `cap`, `consent`.
+ */
+export function enqueue(uid, opts) {
+  preflight(uid);
 
   const job = {
     id: crypto.randomBytes(8).toString('hex'),
@@ -384,6 +396,60 @@ async function execute(job) {
     aborts.delete(job.uid);
     if (jobDir) removeJobDir(jobDir, unprivilegedIds());
   }
+}
+
+/* ---------- equipment scan ---------- */
+
+// Under the reverse proxy's default 60 s read timeout on /api (web/nginx.conf.template): the
+// scan answers in the request itself, and a proxy that gives up first would leave the person
+// with a 504 for a call that still ran — and still spent. A cloud vision model lists a gym in
+// seconds; a local one that needs more than this is better used through the queued jobs.
+export const SCAN_TIMEOUT_MS = 55000;
+
+/**
+ * Photos in, a checklist of catalogue equipment out — answered in the request, never queued,
+ * never stored. Clears the same preflight as a job (consent, credential, caps, single-flight),
+ * and logs its outcome to the instance log like a job, with no detail about what was seen.
+ */
+export async function scanEquipment(uid, { images, lang } = {}) {
+  const cfg = cfgStore.load();
+  const adapter = adapterFor(cfg.provider);
+  // Asked before the preflight, so a provider that cannot look at photos costs nobody a run.
+  if (cfgStore.isEnabled() && adapter && !adapter.vision) {
+    throw new CoachError('novision', 'the configured provider cannot look at photos');
+  }
+  preflight(uid);
+
+  const startedAt = Date.now();
+  inflight.add(uid);
+  const jobDir = adapter.spawns === false ? null : fs.mkdtempSync(path.join(os.tmpdir(), 'coach-scan-'));
+  const env = cfgStore.jobEnv(jobDir || os.tmpdir(), cfgStore.credentialFor(uid));
+  const ctl = new AbortController();
+  aborts.set(uid, ctl);
+  let r;
+  try {
+    const ids = jobDir && unprivilegedIds();
+    if (ids) shareJobDir(jobDir, ids);
+    r = await runScan({
+      adapter, cfg, images, lang: payloadLib.langTag(lang), model: cfgStore.modelFor(cfg), timeoutMs: SCAN_TIMEOUT_MS,
+      invokeOpts: { jobDir, env, fetch: fetchFor(SCAN_TIMEOUT_MS), signal: ctl.signal }
+    });
+  } catch (e) {
+    console.error('coach scan crashed', e);
+    r = { ok: false, errorClass: 'internal' };
+  } finally {
+    aborts.delete(uid);
+    inflight.delete(uid);
+    if (jobDir) removeJobDir(jobDir, unprivilegedIds());
+  }
+  if (!r.ok && ctl.signal.aborted) r = { ok: false, errorClass: 'forgotten' };
+  cfgStore.logJob({
+    at: new Date().toISOString(), uid, kind: 'scan', trigger: 'manual',
+    outcome: r.ok ? 'ready' : 'failed', errorClass: r.ok ? null : r.errorClass,
+    // Counts only — never what was in the photos.
+    ms: Date.now() - startedAt, detail: r.ok ? `${images.length} photo(s), ${r.result.equipment.length} found` : (r.detail || null)
+  });
+  return r;
 }
 
 /* ---------- decisions ---------- */

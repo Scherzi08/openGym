@@ -1663,4 +1663,20 @@ export default {
   'Teal': 'फ़िरोज़ी',
   'Yellow': 'पीला',
   'Enter how long it took — at least 1 minute.': 'बताएँ कि इसमें कितना समय लगा — कम से कम 1 मिनट।',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'AI से मेरा जिम स्कैन करें',
+  'Looking at your photos…': 'आपकी फ़ोटो देखी जा रही हैं…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'जिम की अधिकतम {0} फ़ोटो लें या चुनें। ये केवल उपकरण पहचानने के लिए AI प्रदाता को भेजी जाती हैं और सहेजी नहीं जातीं। लोगों की फ़ोटो लेने से बचें।',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'आपकी फ़ोटो से चुना गया: {0}। सहेजने से पहले नीचे की सूची जाँच लें।',
+  'Nothing new found in your photos.': 'आपकी फ़ोटो में कुछ नया नहीं मिला।',
+  'Not sure about these — tap the ones you have:': 'इनके बारे में पक्का नहीं — जो आपके पास हैं उन्हें टैप करें:',
+  'Only the first {0} photos are used.': 'केवल पहली {0} फ़ोटो इस्तेमाल होती हैं।',
+  'Open the Coach once and give it your go-ahead first.': 'पहले एक बार कोच खोलें और उसे अपनी अनुमति दें।',
+  'The scan failed — try again.': 'स्कैन विफल रहा — फिर से कोशिश करें।',
+  'The scan took too long — try fewer photos.': 'स्कैन में बहुत समय लगा — कम फ़ोटो के साथ कोशिश करें।',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'AI ने ऐसा जवाब दिया जिसे ऐप इस्तेमाल नहीं कर सकता। दूसरी फ़ोटो आज़माएँ।',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'AI फ़ोटो नहीं देख सका — शायद चुना गया मॉडल चित्र सपोर्ट नहीं करता।',
+  'The AI provider isn’t set up correctly.': 'AI प्रदाता ठीक से सेट नहीं है।',
+  'Demo scan: the photos were not analysed.': 'डेमो स्कैन: फ़ोटो का विश्लेषण नहीं किया गया।',
 }

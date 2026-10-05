@@ -68,6 +68,20 @@ const _refinePlan = async text => DEMO ? (await demo()).demoRefine(S()) : LOCAL(
 export const refinePlan = (...a) => _refinePlan(...a).then(track)
 const _requestDebrief = async workoutId => DEMO ? (await demo()).demoDebrief(S(), workoutId) : LOCAL() ? (await local()).localDebrief(S(), workoutId) : api('/api/coach/debrief', { method: 'POST', body: JSON.stringify({ workoutId: workoutId || null, lang: getLang() }) })
 export const requestDebrief = (...a) => _requestDebrief(...a).then(track)
+// Photos of a gym → the equipment in them, answered in the call (no job, no polling). The
+// server and the phone answer `{ equipment, maybe, note, dropped }`; the phone's own failure
+// comes back as `{ ok:false, errorClass, detail }` and is thrown here like a server error, so
+// the sheet has one error path. Photos are `{ mime, data }` from lib/image-resize.js.
+export async function scanEquipment(images) {
+  if (DEMO) return (await demo()).demoScan(images)
+  if (LOCAL()) {
+    const r = await (await local()).localScan(S(), images)
+    if (!r.ok) throw Object.assign(new Error(jobErrorText(r.errorClass, r.detail)), { code: r.errorClass })
+    return r.result
+  }
+  // The server gives the provider 55 s; the rest is the upload of the photos on a gym's Wi-Fi.
+  return api('/api/coach/scan-equipment', { method: 'POST', body: JSON.stringify({ images, lang: getLang() }), timeout: 70000 })
+}
 // The room: anonymous medians across the profiles on this instance that opted in. Only a
 // server has a room; a phone with its own key and the demo both answer locally.
 export const cohortStats = async () => DEMO ? (await demo()).demoCohort(S()) : LOCAL() ? { ok: false, enabled: false } : api('/api/coach/cohort')

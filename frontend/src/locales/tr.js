@@ -1663,4 +1663,20 @@ export default {
   'Teal': 'Turkuaz',
   'Yellow': 'Sarı',
   'Enter how long it took — at least 1 minute.': 'Ne kadar sürdüğünü gir — en az 1 dakika.',
+
+  // --- equipment scan ---
+  'Scan my gym with AI': 'Salonumu yapay zekâyla tara',
+  'Looking at your photos…': 'Fotoğraflarına bakılıyor…',
+  'Take or pick up to {0} photos of the gym floor. They are sent to the AI provider only to recognise the equipment, and are not stored. Avoid photographing people.': 'Salondan en fazla {0} fotoğraf çek veya seç. Yalnızca ekipmanı tanımak için yapay zekâ sağlayıcısına gönderilir ve saklanmaz. İnsanları fotoğraflamamaya çalış.',
+  'Ticked from your photos: {0}. Check the list below before you save.': 'Fotoğraflarından işaretlenenler: {0}. Kaydetmeden önce aşağıdaki listeyi kontrol et.',
+  'Nothing new found in your photos.': 'Fotoğraflarında yeni bir şey bulunamadı.',
+  'Not sure about these — tap the ones you have:': 'Bunlardan emin değil — sende olanlara dokun:',
+  'Only the first {0} photos are used.': 'Yalnızca ilk {0} fotoğraf kullanılır.',
+  'Open the Coach once and give it your go-ahead first.': 'Önce Koç’u bir kez aç ve onayını ver.',
+  'The scan failed — try again.': 'Tarama başarısız oldu — tekrar dene.',
+  'The scan took too long — try fewer photos.': 'Tarama çok uzun sürdü — daha az fotoğrafla dene.',
+  'The AI answered with something the app couldn’t use. Try other photos.': 'Yapay zekâ, uygulamanın kullanamayacağı bir yanıt verdi. Başka fotoğraflar dene.',
+  'The AI couldn’t look at the photos — the chosen model may not support images.': 'Yapay zekâ fotoğraflara bakamadı — seçilen model görselleri desteklemiyor olabilir.',
+  'The AI provider isn’t set up correctly.': 'Yapay zekâ sağlayıcısı doğru kurulmamış.',
+  'Demo scan: the photos were not analysed.': 'Demo tarama: fotoğraflar incelenmedi.',
 }

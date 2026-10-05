@@ -75,6 +75,9 @@ export function httpAdapter(spec) {
     // The two facts the server's job runner branches on. Stated, not inferred from absence.
     spawns: false,
     needsRuntime: false,
+    // Takes photos in the user turn (the equipment scan). Whether the chosen model can see
+    // them is the provider's answer: a text-only model fails the call, and that is reported.
+    vision: true,
 
     baseUrl: cfg => baseUrlFor(id, cfg),
 
@@ -119,7 +122,7 @@ export function httpAdapter(spec) {
      * native HTTP and a test can hand in a fake.
      */
     async invoke(opts = {}) {
-      const { cfg, prompt, system, schema, env, model, timeoutMs = DEFAULT_TIMEOUT_MS, fetch: fetchImpl = globalThis.fetch, signal } = opts;
+      const { cfg, prompt, system, schema, images, maxTokens, env, model, timeoutMs = DEFAULT_TIMEOUT_MS, fetch: fetchImpl = globalThis.fetch, signal } = opts;
       const base = adapter.baseUrl(cfg);
       if (!base) return { code: -1, text: '', stderr: `no endpoint configured for ${id}`, spawnError: true };
       const key = keyOf(env);
@@ -127,7 +130,9 @@ export function httpAdapter(spec) {
       const chosen = model || meta.defaultModel;
       if (!chosen) return { code: 1, text: '', stderr: `no model chosen for ${id} — pick one from the list the endpoint serves` };
 
-      let body = spec.body({ model: chosen, prompt, system: system || null, schema: schema || null, maxTokens: MAX_OUTPUT_TOKENS });
+      // `images` ({ mime, data } with base64 data) ride in the user turn next to the prompt —
+      // the equipment scan (core/scan.js) is the only caller that sends any.
+      let body = spec.body({ model: chosen, prompt, system: system || null, schema: schema || null, images: images && images.length ? images : null, maxTokens: maxTokens || MAX_OUTPUT_TOKENS });
       let retriedWithoutJsonMode = false;
       let transientRetries = 0;
       for (;;) {

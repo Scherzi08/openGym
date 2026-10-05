@@ -211,3 +211,12 @@ export const demoDisclosure = () => ({
   provider: 'demo', providerLabel: t('the configured AI provider'),
   categories: ['plan', 'training', 'bodyweight', 'profile', 'prefs'], version: 1
 })
+
+// The equipment scan has no provider here either: a short pause, then a typical commercial gym
+// floor, in the shape the server answers with (api/coach/core/scan.js). The photos are not read.
+export const demoScan = () => new Promise(resolve => setTimeout(() => resolve({
+  equipment: ['barbell', 'dumbbell', 'cable', 'leverage machine', 'smith machine'],
+  maybe: ['ez barbell', 'kettlebell'],
+  note: t('Demo scan: the photos were not analysed.'),
+  dropped: 0
+}), Math.min(DELAY, 1500)))

@@ -31,6 +31,9 @@ const rel = ts => {
 const RUNTIME_IDS = ['claude', 'codex']
 const TESTING_IDS = ['fixture']
 
+
+// The instance log's job kinds, as the card names them. The scan is logged like a job (jobs.js).
+const KIND_LABEL = { create: 'Plan', review: 'Review', debrief: 'Debrief', scan: 'Equipment scan' }
 export default function AdminCoach() {
   const toast = useUI(s => s.toast)
   const openSheet = useUI(s => s.openSheet)
@@ -320,7 +323,7 @@ export default function AdminCoach() {
           <div className="adm-group-t">Recent jobs</div>
           {d.recent?.length ? <div className="adm-log">
             {d.recent.slice(0, 10).map((e, i) => <div key={i} className="adm-log-row">
-              <span>{e.kind === 'create' ? 'Plan' : 'Review'}{e.trigger === 'scheduled' ? ' · scheduled' : ''} · <span style={{ color: e.outcome === 'failed' ? 'var(--red)' : e.outcome === 'ready' ? 'var(--acc)' : 'var(--label-2)' }}>{e.outcome}</span>{e.ms ? ' · ' + Math.round(e.ms / 1000) + ' s' : ''}</span>
+              <span>{KIND_LABEL[e.kind] || 'Review'}{e.trigger === 'scheduled' ? ' · scheduled' : ''} · <span style={{ color: e.outcome === 'failed' ? 'var(--red)' : e.outcome === 'ready' ? 'var(--acc)' : 'var(--label-2)' }}>{e.outcome}</span>{e.ms ? ' · ' + Math.round(e.ms / 1000) + ' s' : ''}</span>
               <span className="when">{rel(e.at)}</span>
             </div>)}
           </div> : <div className="adm-empty">No jobs yet.</div>}

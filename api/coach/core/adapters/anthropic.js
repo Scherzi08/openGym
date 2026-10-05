@@ -17,13 +17,18 @@ export const anthropicSpec = {
   }),
   // The rules block is marked cacheable: identical for every job of a task, so subsequent
   // jobs read it from Anthropic's prompt cache at a tenth of the input price.
-  body: ({ model, prompt, system, maxTokens }) => ({
+  body: ({ model, prompt, system, images, maxTokens }) => ({
     model,
     max_tokens: maxTokens,
     system: system
       ? [{ type: 'text', text: SYSTEM_PROMPT + '\n\n' + system, cache_control: { type: 'ephemeral' } }]
       : SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: prompt }]
+    messages: [{
+      role: 'user',
+      content: images
+        ? [...images.map(i => ({ type: 'image', source: { type: 'base64', media_type: i.mime, data: i.data } })), { type: 'text', text: prompt }]
+        : prompt
+    }]
   }),
   errorMessage: data => data && data.error && data.error.message,
   readText: data => {
