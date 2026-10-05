@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { defineConfig } from 'vite'
+import { configDefaults } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 
 const backend = process.env.API_TARGET || 'http://127.0.0.1:3000'
@@ -73,5 +74,7 @@ export default defineConfig({
       '/gif': { target: media, changeOrigin: true }
     }
   },
-  build: { chunkSizeWarningLimit: 1500 }
+  build: { chunkSizeWarningLimit: 1500 },
+  // e2e/ is Playwright's (npm run test:e2e), not vitest's
+  test: { exclude: [...configDefaults.exclude, 'e2e/**'] }
 })
