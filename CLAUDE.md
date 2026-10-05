@@ -40,6 +40,7 @@ cd frontend && npm install && npm run dev
 # Frontend tests (training logic: progression, 1RM, session read-back)
 cd frontend && npm test            # vitest run
 cd frontend && npm run test:watch
+cd frontend && npm run test:e2e    # Playwright (frontend/e2e), boots the Vite dev server itself
 npx vitest run src/lib/progression.test.js   # single file
 npx vitest run -t "some test name"           # single test by name
 
@@ -58,7 +59,7 @@ TypeScript — match the existing style by hand.
 GitHub (`github.com/DuarteSantos8/openGym`) is the home of the project; `.github/workflows/mirror.yml`
 pushes `main` and `v*` tags to the GitLab mirror. Pull requests are gated by
 `.github/workflows/test.yml` on Node 22 — the same version as `web/Dockerfile` / `api/Dockerfile`
-(`node:22-alpine`): the frontend, api and MCP suites, the locale checks, and building and booting
+(`node:22-alpine`): the frontend, api and MCP suites, the Playwright e2e tests, the locale checks, and building and booting
 both api image targets. GitLab CI on the mirror (`.gitlab-ci.yml`) builds the release artifacts:
 the signed Android APK, the multi-arch images and the SBOMs. Never push or merge on GitLab
 directly; the mirror is fast-forward only.

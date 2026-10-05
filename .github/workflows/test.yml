@@ -61,6 +61,31 @@ jobs:
       - run: npm run test:fatigue-probe
         working-directory: frontend
 
+  # Playwright drives the real app in a browser (frontend/e2e). The config boots the Vite
+  # dev server itself; no API is needed for the guest-mode screens covered so far.
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+        working-directory: frontend
+      - run: npx playwright install --with-deps chromium
+        working-directory: frontend
+      - run: npm run test:e2e
+        working-directory: frontend
+      # Traces of the failed retries, for `npx playwright show-trace`.
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: frontend/test-results/
+          retention-days: 7
+
 
   mcp:
     runs-on: ubuntu-latest
