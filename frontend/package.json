@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "test:fatigue-probe": "node scripts/fatigue-monotonic-probe.mjs"
   },
   "license": "AGPL-3.0-or-later",
@@ -33,6 +34,7 @@
     "@capacitor/assets": "^3.0.5",
     "@capacitor/cli": "^7.6.8",
     "@capacitor/ios": "^7.6.8",
+    "@playwright/test": "^1.63.0",
     "@vitejs/plugin-react": "^6.0.3",
     "@vitest/coverage-v8": "^4.1.11",
     "happy-dom": "^20.11.2",
